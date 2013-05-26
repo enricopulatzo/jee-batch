@@ -1,0 +1,25 @@
+<job
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation='http://xmlns.jcp.org/xml/ns/javaee http://www.oracle.com/webfolder/technetwork/jsc/xml/ns/javaee/jobXML_1_0.xsd'
+	id="basic-chunk-job"
+	version="1.0"
+	restartable="true"
+	>
+	<properties>
+		<property name="itemTemplate" value="bar"/>
+	</properties>
+	<listeners>
+		<listener ref="org.joshpeters.batch.example2.MyJobListener"/>
+	</listeners>
+
+	<step id="some-step">
+		<properties>
+			<property name="itemTemplate" value="#{jobProperties['itemTemplate']}?:foo;"/>
+		</properties>
+		<chunk item-count="5">
+			<reader ref="org.joshpeters.batch.example2.MyReader"/>
+			<writer ref="org.joshpeters.batch.example2.MyWriter"/>
+		</chunk>
+	</step>
+</job>
